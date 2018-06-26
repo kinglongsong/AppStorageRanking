@@ -5,36 +5,41 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/appIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
         android:layout_gravity="left" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="app name"
         android:id="@+id/appName"
-        android:layout_toRightOf="@id/appIcon" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="code size"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/appIcon"
+        android:text="app name" />
+
+    <TextView
         android:id="@+id/codeSize"
-        android:layout_toRightOf="@id/appName" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="total size"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/appName"
+        android:text="code size" />
+
+    <TextView
         android:id="@+id/totalSize"
-        android:layout_toRightOf="@id/codeSize" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="expansion"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/codeSize"
+        android:text="total size" />
+
+    <TextView
         android:id="@+id/expansion"
-        android:layout_toRightOf="@id/totalSize" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/totalSize"
+        android:text="expansion" />
 </RelativeLayout>
