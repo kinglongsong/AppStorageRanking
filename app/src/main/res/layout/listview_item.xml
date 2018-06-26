@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/appIcon"
+        android:layout_gravity="left" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="app name"
+        android:id="@+id/appName"
+        android:layout_toRightOf="@id/appIcon" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="code size"
+        android:id="@+id/codeSize"
+        android:layout_toRightOf="@id/appName" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="total size"
+        android:id="@+id/totalSize"
+        android:layout_toRightOf="@id/codeSize" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="expansion"
+        android:id="@+id/expansion"
+        android:layout_toRightOf="@id/totalSize" />
+</RelativeLayout>
