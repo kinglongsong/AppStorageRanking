@@ -3,23 +3,24 @@ package com.example.songjinlong.myapplication;
 import android.content.Context;
 import android.content.pm.IPackageStatsObserver;
 import android.content.pm.PackageStats;
+import android.os.Handler;
+import android.os.Message;
 import android.os.RemoteException;
 import android.util.Log;
-import android.widget.ListView;
-
-import java.util.List;
 
 /**
  * Created by songjinlong on 2018/4/27.
  */
 public class MyPackageStats extends IPackageStatsObserver.Stub {
 
-    List<PackageStats> packageStatsesList;
-    ListView listView;
+    MyAppInfo myAppInfo;
     Context context;
+    boolean isLastApp;
+    Handler handler;
 
-    public MyPackageStats(List<PackageStats> packageStatsesList) {
-        this.packageStatsesList = packageStatsesList;
+    public MyPackageStats(MyAppInfo myAppInfo, boolean isLastApp) {
+        this.myAppInfo = myAppInfo;
+        this.isLastApp = isLastApp;
     }
 
     @Override
@@ -33,17 +34,20 @@ public class MyPackageStats extends IPackageStatsObserver.Stub {
 //            cv.put(DatabaseManager.INDEX_CACHE_SIZE, pStats.cacheSize);
 //            db.insert(DatabaseManager.TABLE_APP_SIZE_DETAIL, null, cv);
 
-            packageStatsesList.add(pStats);
             Log.d("Test", "Get app stat : " + pStats.packageName);
 
-            if (listView != null) {
-                Log.d("Test", "完成，共" + packageStatsesList.size() + "款");
-                listView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        listView.setAdapter(new DataAdapter(context, packageStatsesList));
-                    }
-                });
+            myAppInfo.appName = "";
+            myAppInfo.pkgName = pStats.packageName;
+            myAppInfo.codeSize = pStats.codeSize;
+            myAppInfo.dataSize = pStats.dataSize;
+            myAppInfo.cacheSize = pStats.cacheSize;
+
+            if (isLastApp) {
+                Log.d("Test", "扫描完成");
+                //通知主线程可以刷新界面了
+                Message message = Message.obtain(handler);
+                message.what = 0;
+                handler.sendMessage(message);
             }
 
         } else {
@@ -51,8 +55,7 @@ public class MyPackageStats extends IPackageStatsObserver.Stub {
         }
     }
 
-    public void prepareToShowList(Context context, ListView listView) {
-        this.context = context;
-        this.listView = listView;
+    public void prepareToShowList(Handler handler) {
+        this.handler = handler;
     }
 }

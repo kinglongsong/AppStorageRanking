@@ -2,8 +2,8 @@ package com.example.songjinlong.myapplication;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.content.pm.PackageStats;
 import android.graphics.drawable.Drawable;
+import android.text.format.Formatter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,27 +11,28 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 public class DataAdapter extends BaseAdapter {
 
-    List<PackageStats> packageStatsList;
+    List<MyAppInfo> myAppInfoList;
     Context context;
 
-    public DataAdapter(Context context, List<PackageStats> packageStatsList) {
+    public DataAdapter(Context context, List<MyAppInfo> myAppInfoList) {
         this.context = context;
-        this.packageStatsList = packageStatsList;
+        this.myAppInfoList = myAppInfoList;
     }
 
 
     @Override
     public int getCount() {
-        return packageStatsList.size();
+        return myAppInfoList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return packageStatsList.get(position);
+        return myAppInfoList.get(position);
     }
 
     @Override
@@ -42,8 +43,10 @@ public class DataAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        PackageStats packageStats = packageStatsList.get(position);
+        MyAppInfo myAppInfo = myAppInfoList.get(position);
         PackageManager packageManager = (PackageManager) context.getPackageManager();
+        NumberFormat numberFormat = NumberFormat.getPercentInstance();
+        numberFormat.setMaximumFractionDigits(2);
 
         if (convertView == null) {
             //生成item的view
@@ -59,21 +62,22 @@ public class DataAdapter extends BaseAdapter {
             holder.expansion = (TextView) itemView.findViewById(R.id.expansion);
 
             try {
-                Drawable iconDrawable = packageManager.getApplicationIcon(packageStats.packageName);
+                Drawable iconDrawable = packageManager.getApplicationIcon(myAppInfo.pkgName);
                 holder.iconView.setImageDrawable(iconDrawable);
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
             }
             try {
-                holder.appName.setText(packageManager.getApplicationLabel(packageManager.getApplicationInfo(packageStats.packageName, 0)));
+                holder.appName.setText(packageManager.getApplicationLabel(packageManager.getApplicationInfo(myAppInfo.pkgName, 0)));
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
             }
-            holder.codeSize.setText(packageStats.codeSize + "");
-            long totalSize = packageStats.codeSize + packageStats.dataSize;
-            int expansion = (int) (totalSize / packageStats.codeSize);
-            holder.totalSize.setText(totalSize + "");
-            holder.expansion.setText(expansion);
+            holder.codeSize.setText(" " + Formatter.formatFileSize(context, myAppInfo.codeSize));
+            long totalSize = myAppInfo.codeSize + myAppInfo.dataSize;
+            float expansion = ((float) (totalSize - myAppInfo.codeSize)) / myAppInfo.codeSize;
+            holder.totalSize.setText(" " + Formatter.formatFileSize(context, totalSize));
+            String expansionStr = numberFormat.format(expansion);
+            holder.expansion.setText(" 膨胀" + expansionStr);
             itemView.setTag(holder);
             return itemView;
         }
@@ -81,23 +85,24 @@ public class DataAdapter extends BaseAdapter {
         ViewHolder holder = (ViewHolder) convertView.getTag();
 
         try {
-            Drawable iconDrawable = packageManager.getApplicationIcon(packageStats.packageName);
+            Drawable iconDrawable = packageManager.getApplicationIcon(myAppInfo.pkgName);
             holder.iconView.setImageDrawable(iconDrawable);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
 
         try {
-            holder.appName.setText(packageManager.getApplicationLabel(packageManager.getApplicationInfo(packageStats.packageName, 0)));
+            holder.appName.setText(packageManager.getApplicationLabel(packageManager.getApplicationInfo(myAppInfo.pkgName, 0)));
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
 
-        holder.codeSize.setText(packageStats.codeSize + "");
-        long totalSize = packageStats.codeSize + packageStats.dataSize;
-        int expansion = (int) (totalSize / packageStats.codeSize);
-        holder.totalSize.setText(totalSize + "");
-        holder.expansion.setText(expansion);
+        holder.codeSize.setText(" " + Formatter.formatFileSize(context, myAppInfo.codeSize));
+        long totalSize = myAppInfo.codeSize + myAppInfo.dataSize;
+        float expansion = ((float) (totalSize - myAppInfo.codeSize)) / myAppInfo.codeSize;
+        holder.totalSize.setText(" " + Formatter.formatFileSize(context, totalSize));
+        String expansionStr = numberFormat.format(expansion);
+        holder.expansion.setText(" 膨胀" + expansionStr);
 
         return convertView;
     }

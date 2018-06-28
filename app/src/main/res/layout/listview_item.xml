@@ -13,7 +13,7 @@
 
     <TextView
         android:id="@+id/appName"
-        android:layout_width="wrap_content"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/appIcon"
@@ -21,7 +21,7 @@
 
     <TextView
         android:id="@+id/codeSize"
-        android:layout_width="wrap_content"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/appName"
@@ -29,7 +29,7 @@
 
     <TextView
         android:id="@+id/totalSize"
-        android:layout_width="wrap_content"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/codeSize"
@@ -37,7 +37,7 @@
 
     <TextView
         android:id="@+id/expansion"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/totalSize"

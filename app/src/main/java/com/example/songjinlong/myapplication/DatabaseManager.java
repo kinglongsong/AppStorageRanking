@@ -29,4 +29,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
+
+    public static boolean isDataOutOfTime() {
+        return true;
+    }
 }
